@@ -34,6 +34,13 @@ namespace firstapp.Controllers
         }
 
         [HttpGet]
+        [Route("GetFullRecipe")]
+        public IQueryable<Recipes> GetFullRecipe(bool containDeleted, int recipeId)
+        {
+            return _recipesService.GetFullRecipe(containDeleted, recipeId);
+        }
+
+        [HttpGet]
         [Route("GetIngredients")]
         public IQueryable<Ingredients> GetIngredients(bool containDeleted)
         {
@@ -53,6 +60,5 @@ namespace firstapp.Controllers
         {
             return _allergensService.GetAllergens(containDeleted);
         }
-
     }
 }
