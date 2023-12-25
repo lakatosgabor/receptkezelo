@@ -48,6 +48,20 @@ namespace firstapp.Controllers
         }
 
         [HttpGet]
+        [Route("GetIngredientsByCategory")]
+        public IQueryable<Ingredients> GetIngredientsByCategory(bool containDeleted, int categoryId)
+        {
+            return _ingredientsService.GetIngredientsByCategory(containDeleted, categoryId);
+        }
+
+        [HttpGet]
+        [Route("GetIngredientsByAllergen")]
+        public IQueryable<Ingredients> GetIngredientsByAllergen(bool containDeleted, int allergenId)
+        {
+            return _ingredientsService.GetIngredientsByAllergen(containDeleted, allergenId);
+        }
+
+        [HttpGet]
         [Route("GetCategories")]
         public IQueryable<Categories> GetCategories(bool containDeleted)
         {

@@ -22,6 +22,6 @@ namespace firstapp.Services
         public IQueryable<Categories> GetCategories(bool containDeleted)
         {
             return GetBasedOnContainDeleted(containDeleted);
-        }
+        }       
     }
 }

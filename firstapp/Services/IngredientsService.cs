@@ -24,5 +24,31 @@ namespace firstapp.Services
         {
             return GetBasedOnContainDeleted(containDeleted);
         }
+
+        /// <summary>
+        /// Egy kategóriába tartozó összes alapanyag
+        /// </summary>
+        public IQueryable<Ingredients> GetIngredientsByCategory(bool containDeleted, int categoryId)
+        {
+            IQueryable<Ingredients> ingredientsQuery = GetBasedOnContainDeleted(containDeleted);
+
+            return ingredientsQuery
+                .Where(i => i.CategoryId == categoryId)
+                .Include(i => i.Categories) // Kategória betöltése
+                .Include(i => i.Allergens); // Allergének betöltése
+        }
+
+        /// <summary>
+        ///  Egy allergénhez tartozó összes alapanyag
+        /// </summary>
+        public IQueryable<Ingredients> GetIngredientsByAllergen(bool containDeleted, int allergenId)
+        {
+            IQueryable<Ingredients> ingredientsQuery = GetBasedOnContainDeleted(containDeleted);
+
+            return ingredientsQuery
+                .Where(i => i.Allergens.Any(a => a.AllergenId == allergenId))
+                .Include(i => i.Categories) // Kategória betöltése
+                .Include(i => i.Allergens); // Allergének betöltése
+        }
     }
 }
