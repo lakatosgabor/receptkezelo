@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "QrFWEGPqR3HbVu0fgPCjv6m1yi4KZiYv8XgoBjjwzj3MgRaA517XDZG3+1EIFRrj9LN6kzizHbjgERFelVL4/A==",
+  "dgSpecHash": "OYCRcctcJQOKA7ylbY4YpFcf34AHFLlZ8yRIH7CXrv5sW5yJ821DbcgNyD6LezD7ZAP0pAdcHmd5SdFM+SI4VA==",
   "success": true,
-  "projectFilePath": "E:\\C#Apps\\firstapp\\firstapp\\firstapp.csproj",
+  "projectFilePath": "E:\\C#Apps\\firstapp\\receptkezelo\\firstapp\\firstapp.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Lakatos Gábor\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\Lakatos Gábor\\.nuget\\packages\\microsoft.csharp\\4.5.0\\microsoft.csharp.4.5.0.nupkg.sha512",

@@ -2476,11 +2476,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\C#Apps\\firstapp\\firstapp\\firstapp.csproj",
+      "projectUniqueName": "E:\\C#Apps\\firstapp\\receptkezelo\\firstapp\\firstapp.csproj",
       "projectName": "firstapp",
-      "projectPath": "E:\\C#Apps\\firstapp\\firstapp\\firstapp.csproj",
+      "projectPath": "E:\\C#Apps\\firstapp\\receptkezelo\\firstapp\\firstapp.csproj",
       "packagesPath": "C:\\Users\\Lakatos Gábor\\.nuget\\packages\\",
-      "outputPath": "E:\\C#Apps\\firstapp\\firstapp\\obj\\",
+      "outputPath": "E:\\C#Apps\\firstapp\\receptkezelo\\firstapp\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
