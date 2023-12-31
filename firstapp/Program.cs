@@ -1,12 +1,16 @@
 using firstapp.Models.Entity;
 using Microsoft.EntityFrameworkCore;
-
+using firstapp.Services;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddDbContext<RecipeDbContext>(x => x.UseSqlServer(builder.Configuration.GetConnectionString("DbCon")));
-
+builder.Services.AddScoped<IAllergensService, AllergensService>();
+builder.Services.AddScoped<IIngredientsService, IngredientsService>();
+builder.Services.AddScoped<IRecipesService, RecipesService>();
+builder.Services.AddScoped<IBasicMaterialCategoryService, BasicMaterialCategoryService>();
+builder.Services.AddScoped<IBasicMaterialService, BasicMaterialService>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
