@@ -75,6 +75,22 @@ namespace firstapp.Controllers
             return _basicMaterialService.GetBasicMaterialsWithAllergen(containDeleted, allergenId);
         }
 
+        [HttpPost]
+        [Route("SaveRecipe")]
+        public IActionResult SaveRecipe(Recipes recipes)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("A megadott adatok nem megfelelőek");
+            }
+
+            if (recipes.CookingTime == 0)
+            {
+                return BadRequest("A főzési idő megadása kötelező!");
+            }
+
+            return _recipesService.SaveRecipe(recipes);
+        }
 
     }
 }

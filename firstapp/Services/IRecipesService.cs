@@ -1,4 +1,5 @@
 ﻿using firstapp.Models.Entity;
+using Microsoft.AspNetCore.Mvc;
 
 namespace firstapp.Services
 {
@@ -6,5 +7,6 @@ namespace firstapp.Services
     {
         public IQueryable<Recipes> GetRecipes(bool containDeleted);
         public IQueryable<object> GetFullRecipe(bool containDeleted, int recipeId);
+        public IActionResult SaveRecipe(Recipes recipes);
     }
 }

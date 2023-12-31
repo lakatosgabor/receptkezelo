@@ -1,4 +1,5 @@
 ﻿using firstapp.Models.Entity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace firstapp.Services
@@ -71,6 +72,44 @@ namespace firstapp.Services
                 IngredientAllergen = item.IngredientAllergen,
                 Allergen = item.Allergen
             });
+        }
+
+        /// <summary>
+        /// Recept alap adatainak mentése
+        /// </summary>
+        public IActionResult SaveRecipe(Recipes recipes)
+        {
+            try
+            {
+                _recipeDbContext.Recipes.Add(recipes);
+                int affectedRows = _recipeDbContext.SaveChanges();
+
+                if (affectedRows <= 0)
+                {
+                    return new BadRequestObjectResult("Mentés nem sikerült.");
+                }
+                return new OkObjectResult("Mentés sikeres!");
+            }
+            catch (Exception ex)
+            {
+                return new BadRequestObjectResult($"Hiba történt a mentés során: {ex.Message}");
+            }
+        }
+
+        /// <summary>
+        /// Recept elkészítési ideje PrepareTime + CookingTime
+        /// </summary>
+        public object fullReadyTime(bool containDeleted)
+        {
+            IQueryable<Recipes> recipesQuery = GetBasedOnContainDeleted(containDeleted);
+            var readyTimeQuery = recipesQuery
+                                .Select(recipe => new
+                                {
+                                    Id = recipe.Id,
+                                    ReadyTime = recipe.PrepareTime + recipe.CookingTime
+                                });
+
+            return readyTimeQuery.ToList();
         }
     }
 }
