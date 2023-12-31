@@ -13,13 +13,18 @@ builder.Services.AddScoped<IBasicMaterialCategoryService, BasicMaterialCategoryS
 builder.Services.AddScoped<IBasicMaterialService, BasicMaterialService>();
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
+
+/*hozzáadja a Swagger generálási és dokumentációs funkcióit az alkalmazáshoz.
+ * Ezek a függvények segítenek az API-k dokumentálásában és a Swagger felhasználói
+ * felület létrehozásában.
+ */
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+//Swagger bekapcsolása fejlesztõi módban
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
