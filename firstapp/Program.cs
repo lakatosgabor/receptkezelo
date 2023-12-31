@@ -1,6 +1,8 @@
 using firstapp.Models.Entity;
 using Microsoft.EntityFrameworkCore;
 using firstapp.Services;
+using firstapp.Middleware;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -13,7 +15,6 @@ builder.Services.AddScoped<IBasicMaterialCategoryService, BasicMaterialCategoryS
 builder.Services.AddScoped<IBasicMaterialService, BasicMaterialService>();
 
 builder.Services.AddControllers();
-
 
 /*hozzáadja a Swagger generálási és dokumentációs funkcióit az alkalmazáshoz.
  * Ezek a függvények segítenek az API-k dokumentálásában és a Swagger felhasználói
@@ -32,6 +33,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseAuthorization();
+
+app.UseMiddleware<HttpRequestLoggingMiddleware>();
 
 app.MapControllers();
 
