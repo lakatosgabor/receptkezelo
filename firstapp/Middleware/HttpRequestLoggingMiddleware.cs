@@ -16,23 +16,50 @@ namespace firstapp.Middleware
 
         public async Task Invoke(HttpContext context)
         {
-            _logger.LogInformation($"Http Request information:{Environment.NewLine}" +
-                                   $"Method: {context.Request.Method}{Environment.NewLine}" +
-                                   $"Endpoint: {context.Request.Path}{Environment.NewLine}" +
-                                   $"Body: {await GetResponseBodyContent(context.Request.Body)}{Environment.NewLine}" +
-                                   $"User Id: {context.User?.Identity?.Name ?? "N/A"}{Environment.NewLine}");
+            if (context.Request.Method == "POST")
+            {
+                if (context.Request.Body.CanSeek)
+                {
+                    context.Request.Body.Seek(0, SeekOrigin.Begin);
+                    // Újra beolvassuk a testet
+                    _logger.LogInformation($"Http Request information:{Environment.NewLine}" +
+                                           $"Method: {context.Request.Method}{Environment.NewLine}" +
+                                           $"Endpoint: {context.Request.Path}{Environment.NewLine}" +
+                                           $"Body: {await GetResponseBodyContent(context.Request.Body)}{Environment.NewLine}" +
+                                           $"User Id: {context.User?.Identity?.Name ?? "N/A"}{Environment.NewLine}");
+                }
+                else
+                {
+                    _logger.LogInformation($"Http Request information:{Environment.NewLine}" +
+                                           $"Method: {context.Request.Method}{Environment.NewLine}" +
+                                           $"Endpoint: {context.Request.Path}{Environment.NewLine}" +
+                                           $"Body: Cannot re-read the request body due to its configuration.{Environment.NewLine}" +
+                                           $"User Id: {context.User?.Identity?.Name ?? "N/A"}{Environment.NewLine}");
+                }
+            }
+            else
+            {
+                _logger.LogInformation($"Http Request information:{Environment.NewLine}" +
+                                       $"Method: {context.Request.Method}{Environment.NewLine}" +
+                                       $"Endpoint: {context.Request.Path}{Environment.NewLine}" +
+                                       $"User Id: {context.User?.Identity?.Name ?? "N/A"}{Environment.NewLine}");
+            }
 
             await _next(context);
         }
 
         private async Task<string> GetResponseBodyContent(Stream requestStream)
         {
+            //requestStream.Seek(0, SeekOrigin.Begin);
+
             string bodyText = await new StreamReader(requestStream).ReadToEndAsync();
+
+            //requestStream.Seek(0, SeekOrigin.Begin);
+
             return bodyText;
         }
     }
 
-    // Middleware extension method
     public static class HttpRequestLoggingMiddlewareExtensions
     {
         public static IApplicationBuilder UseHttpRequestLogging(this IApplicationBuilder builder)

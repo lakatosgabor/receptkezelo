@@ -92,5 +92,24 @@ namespace firstapp.Controllers
             return _recipesService.SaveRecipe(recipes);
         }
 
+        [HttpDelete]
+        [Route("DeleteRecipe")]
+        public IActionResult DeleteRecipe(int recipeId)
+        {
+            if (recipeId <= 0)
+            {
+                return BadRequest("A recept azonosító megadása kötelező!");
+            }
+
+            return _recipesService.DeleteRecipe(recipeId);
+        }
+
+
+        [HttpPut]
+        [Route("UpdateRecipe")]
+        public async Task<string> UpdateRecipe(Recipes recipes)
+        {
+            return await _recipesService.UpdateRecipe(recipes);
+        }
     }
 }
