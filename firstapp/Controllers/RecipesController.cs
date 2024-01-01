@@ -14,14 +14,17 @@ namespace firstapp.Controllers
         private readonly IAllergensService _allergensService;
         private readonly IIngredientsService _ingredientsService;
         private readonly IIngredientGroupService _ingredientGroupService;
-
+        private readonly IRecipeIngredientService _recipeIngredientService;
+        private readonly IIngredientGrouppingService _ingredientGrouppingService;
 
         public RecipesController(IRecipesService recipesService,
                         IBasicMaterialCategoryService basicMaterialCategoryService,
                         IBasicMaterialService basicMaterialService,
                         IAllergensService allergensService,
                         IIngredientsService ingredientsService,
-                        IIngredientGroupService ingredientGroupService)
+                        IIngredientGroupService ingredientGroupService,
+                        IRecipeIngredientService recipeIngredientService,
+                        IIngredientGrouppingService ingredientGrouppingService)
         {
             _recipesService = recipesService;
             _basicMaterialService = basicMaterialService;
@@ -29,6 +32,8 @@ namespace firstapp.Controllers
             _allergensService = allergensService;
             _ingredientsService = ingredientsService;
             _ingredientGroupService = ingredientGroupService;
+            _recipeIngredientService = recipeIngredientService;
+            _ingredientGrouppingService = ingredientGrouppingService;
         }
 
         [HttpGet]
@@ -242,6 +247,63 @@ namespace firstapp.Controllers
         public async Task<string> UpdateAllergen(Allergens allergens)
         {
             return await _allergensService.UpdateAllergen(allergens);
+        }
+
+        [HttpPost]
+        [Route("SaveRecipeIngredient")]
+        public async Task<string> SaveRecipeIngredient(RecipeIngredients RecipeIngredient)
+        {
+            return await _recipeIngredientService.SaveRecipeIngredient(RecipeIngredient);
+        }
+
+        [HttpDelete]
+        [Route("DeleteRecipeIngredient")]
+        public async Task<string> DeleteRecipeIngredient(int recipeIngredientId)
+        {
+            if (recipeIngredientId <= 0)
+            {
+                return "Az azonosító megadása kötelező!";
+            }
+
+            return await _recipeIngredientService.DeleteRecipeIngredient(recipeIngredientId);
+        }
+
+        [HttpPost]
+        [Route("SaveIngredientGroupping")]
+        public async Task<string> SaveIngredientGroupping(IngredientGroupping IngredientGroupping)
+        {
+            return await _ingredientGrouppingService.SaveIngredientGroupping(IngredientGroupping);
+        }
+
+        [HttpDelete]
+        [Route("DeleteIngredientGroupping")]
+        public async Task<string> DeleteIngredientGroupping(int ingredientGrouppingId)
+        {
+            if (ingredientGrouppingId <= 0)
+            {
+                return "Az azonosító megadása kötelező!";
+            }
+
+            return await _ingredientGrouppingService.DeleteIngredientGroupping(ingredientGrouppingId);
+        }
+
+        [HttpPost]
+        [Route("SaveIngredientsAllergen")]
+        public async Task<string> SaveIngredientsAllergen(IngredientsAllergens IngredientsAllergens)
+        {
+            return await _allergensService.SaveIngredientsAllergen(IngredientsAllergens);
+        }
+
+        [HttpDelete]
+        [Route("DeleteIngredientsAllergen")]
+        public async Task<string> DeleteIngredientsAllergen(int ingredientsAllergenId)
+        {
+            if (ingredientsAllergenId <= 0)
+            {
+                return "Az azonosító megadása kötelező!";
+            }
+
+            return await _allergensService.DeleteIngredientsAllergen(ingredientsAllergenId);
         }
     }
 }

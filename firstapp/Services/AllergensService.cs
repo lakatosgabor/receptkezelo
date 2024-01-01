@@ -102,5 +102,52 @@ namespace firstapp.Services
             }
 
         }
+
+        /// <summary>
+        /// Allergén alapanyaghoz rendelése
+        /// </summary>
+        public async Task<string> SaveIngredientsAllergen(IngredientsAllergens IngredientsAllergens)
+        {
+            try
+            {
+                _recipeDbContext.IngredientsAllergens.Add(IngredientsAllergens);
+                int affectedRows = await _recipeDbContext.SaveChangesAsync();
+
+                if (affectedRows <= 0)
+                {
+                    throw new InvalidOperationException("Sikertelen mentés!");
+                }
+                return "Mentés sikeres!";
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidOperationException($"Hiba történt a mentés közben: {ex.Message}");
+            }
+        }
+
+        /// <summary>
+        /// Allergén alapanyag kapcsolat törlése
+        /// </summary>
+        public async Task<string> DeleteIngredientsAllergen(int ingredientsAllergenId)
+        {
+            try
+            {
+                var allergen = _recipeDbContext.IngredientsAllergens.FirstOrDefault(e => e.Id == ingredientsAllergenId);
+
+                if (allergen == null)
+                {
+                    throw new InvalidOperationException("A kapcsolat nem található az adatbázisban.");
+                }
+
+                _recipeDbContext.IngredientsAllergens.Remove(allergen);
+
+                await _recipeDbContext.SaveChangesAsync();
+                return "Sikeres törlés!";
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidOperationException($"Hiba történt a mentés közben: {ex.Message}");
+            }
+        }
     }
 }

@@ -14,6 +14,8 @@ builder.Services.AddScoped<IRecipesService, RecipesService>();
 builder.Services.AddScoped<IBasicMaterialCategoryService, BasicMaterialCategoryService>();
 builder.Services.AddScoped<IBasicMaterialService, BasicMaterialService>();
 builder.Services.AddScoped<IIngredientGroupService, IngredientGroupService>();
+builder.Services.AddScoped<IRecipeIngredientService, RecipeIngredientService>();
+builder.Services.AddScoped<IIngredientGrouppingService, IngredientGrouppingService>();
 
 builder.Services.AddControllers();
 

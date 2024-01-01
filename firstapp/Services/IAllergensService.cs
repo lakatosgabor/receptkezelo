@@ -9,5 +9,8 @@ namespace firstapp.Services
         public Task<string> DeleteAllergen(int allergenId);
         public Task<string> UpdateAllergen(Allergens Allergens);
 
+        public Task<string> SaveIngredientsAllergen(IngredientsAllergens IngredientsAllergens);
+        public Task<string> DeleteIngredientsAllergen(int ingredientsAllergenId);
+
     }
 }
