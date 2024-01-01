@@ -12,16 +12,23 @@ namespace firstapp.Controllers
         private readonly IBasicMaterialService _basicMaterialService;
         private readonly IBasicMaterialCategoryService _basicMaterialCategoryService;
         private readonly IAllergensService _allergensService;
+        private readonly IIngredientsService _ingredientsService;
+        private readonly IIngredientGroupService _ingredientGroupService;
+
 
         public RecipesController(IRecipesService recipesService,
                         IBasicMaterialCategoryService basicMaterialCategoryService,
                         IBasicMaterialService basicMaterialService,
-                        IAllergensService allergensService)
+                        IAllergensService allergensService,
+                        IIngredientsService ingredientsService,
+                        IIngredientGroupService ingredientGroupService)
         {
             _recipesService = recipesService;
             _basicMaterialService = basicMaterialService;
             _basicMaterialCategoryService = basicMaterialCategoryService;
             _allergensService = allergensService;
+            _ingredientsService = ingredientsService;
+            _ingredientGroupService = ingredientGroupService;
         }
 
         [HttpGet]
@@ -77,31 +84,21 @@ namespace firstapp.Controllers
 
         [HttpPost]
         [Route("SaveRecipe")]
-        public IActionResult SaveRecipe(Recipes recipes)
+        public async Task<string> SaveRecipe(Recipes recipes)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest("A megadott adatok nem megfelelőek");
-            }
-
-            if (recipes.CookingTime == 0)
-            {
-                return BadRequest("A főzési idő megadása kötelező!");
-            }
-
-            return _recipesService.SaveRecipe(recipes);
+            return await _recipesService.SaveRecipe(recipes);
         }
 
         [HttpDelete]
         [Route("DeleteRecipe")]
-        public IActionResult DeleteRecipe(int recipeId)
+        public async Task<string> DeleteRecipe(int recipeId)
         {
             if (recipeId <= 0)
             {
-                return BadRequest("A recept azonosító megadása kötelező!");
+                return "A recept azonosító megadása kötelező!";
             }
 
-            return _recipesService.DeleteRecipe(recipeId);
+            return await _recipesService.DeleteRecipe(recipeId);
         }
 
 
@@ -110,6 +107,60 @@ namespace firstapp.Controllers
         public async Task<string> UpdateRecipe(Recipes recipes)
         {
             return await _recipesService.UpdateRecipe(recipes);
+        }
+
+        [HttpPost]
+        [Route("SaveIngredient")]
+        public async Task<string> SaveIngredient(Ingredients ingredients)
+        {
+            return await _ingredientsService.SaveIngredient(ingredients);
+        }
+
+        [HttpDelete]
+        [Route("DeleteIngredient")]
+        public async Task<string> DeleteIngredient(int ingredientId)
+        {
+            if (ingredientId <= 0)
+            {
+                return "A hozzávaló azonosító megadása kötelező!";
+            }
+
+            return await _ingredientsService.DeleteIngredient(ingredientId);
+        }
+
+
+        [HttpPut]
+        [Route("UpdateIngredient")]
+        public async Task<string> UpdateIngredient(Ingredients ingredients)
+        {
+            return await _ingredientsService.UpdateIngredient(ingredients);
+        }
+
+        [HttpPost]
+        [Route("SaveIngredientGroup")]
+        public async Task<string> SaveIngredientGroup(IngredientGroups ingredientGroups)
+        {
+            return await _ingredientGroupService.SaveIngredientGroup(ingredientGroups);
+        }
+
+        [HttpDelete]
+        [Route("DeleteIngredientGroup")]
+        public async Task<string> DeleteIngredientGroup(int ingredientGroupId)
+        {
+            if (ingredientGroupId <= 0)
+            {
+                return "A hozzávaló csoport azonosító megadása kötelező!";
+            }
+
+            return await _ingredientGroupService.DeleteIngredientGroup(ingredientGroupId);
+        }
+
+
+        [HttpPut]
+        [Route("UpdateIngredientGroup")]
+        public async Task<string> UpdateIngredientGroup(IngredientGroups ingredientGroups)
+        {
+            return await _ingredientGroupService.UpdateIngredientGroup(ingredientGroups);
         }
     }
 }

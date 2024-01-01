@@ -13,6 +13,7 @@ builder.Services.AddScoped<IIngredientsService, IngredientsService>();
 builder.Services.AddScoped<IRecipesService, RecipesService>();
 builder.Services.AddScoped<IBasicMaterialCategoryService, BasicMaterialCategoryService>();
 builder.Services.AddScoped<IBasicMaterialService, BasicMaterialService>();
+builder.Services.AddScoped<IIngredientGroupService, IngredientGroupService>();
 
 builder.Services.AddControllers();
 

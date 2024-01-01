@@ -76,28 +76,6 @@ namespace firstapp.Services
         }
 
         /// <summary>
-        /// Recept alap adatainak mentése
-        /// </summary>
-        public IActionResult SaveRecipe(Recipes recipes)
-        {
-            try
-            {
-                _recipeDbContext.Recipes.Add(recipes);
-                int affectedRows = _recipeDbContext.SaveChanges();
-
-                if (affectedRows <= 0)
-                {
-                    return new BadRequestObjectResult("Mentés nem sikerült.");
-                }
-                return new OkObjectResult("Mentés sikeres!");
-            }
-            catch (Exception ex)
-            {
-                return new BadRequestObjectResult($"Hiba történt a mentés során: {ex.Message}");
-            }
-        }
-
-        /// <summary>
         /// Recept elkészítési ideje PrepareTime + CookingTime
         /// </summary>
         public object fullReadyTime(bool containDeleted)
@@ -114,9 +92,36 @@ namespace firstapp.Services
         }
 
         /// <summary>
+        /// Recept alap adatainak mentése
+        /// </summary>
+        public async Task<string> SaveRecipe(Recipes recipes)
+        {
+            try
+            {
+                if (recipes.CookingTime == null || recipes.CookingTime == 0)
+                {
+                    throw new ArgumentException("A főzési idő megadása kötelező.");
+                }
+
+                _recipeDbContext.Recipes.Add(recipes);
+                int affectedRows = await _recipeDbContext.SaveChangesAsync();
+
+                if (affectedRows <= 0)
+                {
+                    throw new InvalidOperationException("Sikertelen mentés!");
+                }
+                return "Mentés sikeres!";
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidOperationException($"Hiba történt a mentés közben: {ex.Message}");
+            }
+        }
+
+        /// <summary>
         /// Recept entitás törlése
         /// </summary>
-        public IActionResult DeleteRecipe(int recipeId)
+        public async Task<string> DeleteRecipe(int recipeId)
         {
             try
             {
@@ -124,16 +129,23 @@ namespace firstapp.Services
 
                 if (recipe == null)
                 {
-                    return new BadRequestObjectResult("A recept nem létezik!");
+                    throw new InvalidOperationException("A recept nem található az adatbázisban.");
                 }
 
-                _recipeDbContext.Recipes.Remove(recipe);
-                _recipeDbContext.SaveChanges();
-                return new OkObjectResult("Sikeres törlés!");
+                var isUsedInOtherEntity = _recipeDbContext.RecipeIngredients.Any(e => e.RecipeId == recipeId);
+
+                if (isUsedInOtherEntity)
+                {
+                    throw new InvalidOperationException("A recept más entitásokhoz kapcsolódik, nem törölhető.");
+                }
+
+                recipe.IsDeleted= true;
+                await _recipeDbContext.SaveChangesAsync();
+                return "Sikeres törlés!";
             }
             catch (Exception ex)
             {
-                return new BadRequestObjectResult($"Hiba történt a törlés során: {ex.Message}");
+                throw new InvalidOperationException($"Hiba történt a mentés közben: {ex.Message}");
             }
         }
 
@@ -150,26 +162,22 @@ namespace firstapp.Services
                     throw new InvalidOperationException("A recept nem található az adatbázisban.");
                 }
 
-                // Ellenőrizzük, hogy a cookingTime értéke meg van-e adva
                 if (recipes.CookingTime == null || recipes.CookingTime == 0)
                 {
                     throw new ArgumentException("A főzési idő megadása kötelező.");
                 }
 
-                // Az adott entitás módosítása az új adatokkal
                 existingRecipe.Title = recipes.Title;
                 existingRecipe.PrepareTime = recipes.PrepareTime;
                 existingRecipe.CodeName = recipes.CodeName;
                 existingRecipe.CookingTime = recipes.CookingTime;
                 existingRecipe.Description = recipes.Description;
 
-                // Változtatások mentése az adatbázisban
                 await _recipeDbContext.SaveChangesAsync();
                 return "Sikeres módosítás!";
             }
             catch (Exception ex)
             {
-                // Kezeljük a mentés közbeni hibákat
                 throw new InvalidOperationException($"Hiba történt a mentés közben: {ex.Message}");
             }
 
