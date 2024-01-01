@@ -1,13 +1,15 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Reflection;
 
 namespace firstapp.Models.Entity
 {
-    public class RecipeDbContext : DbContext
+    public class RecipeDbContext : IdentityDbContext<ApplicationUser>
     {
-        public RecipeDbContext(DbContextOptions options) : base(options)
+        public RecipeDbContext(DbContextOptions<RecipeDbContext> options) : base(options)
         {
             Database.SetCommandTimeout(60);
         }
@@ -22,6 +24,8 @@ namespace firstapp.Models.Entity
         public DbSet<IngredientsAllergens> IngredientsAllergens { get; set; }
         public DbSet<RecipeIngredients> RecipeIngredients { get; set; }
 
+        public DbSet<ApplicationUser> ApplicationUser { get; set; }
+        
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
