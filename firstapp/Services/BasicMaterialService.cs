@@ -83,5 +83,84 @@ namespace firstapp.Services
                 Allergen = item.Allergen
             });
         }
+
+        /// <summary>
+        /// Alapanyag alap adatainak mentése
+        /// </summary>
+        public async Task<string> SaveBasicMaterial(BasicMaterials basicMaterials)
+        {
+            try
+            {
+                _recipeDbContext.BasicMaterials.Add(basicMaterials);
+                int affectedRows = await _recipeDbContext.SaveChangesAsync();
+
+                if (affectedRows <= 0)
+                {
+                    throw new InvalidOperationException("Sikertelen mentés!");
+                }
+                return "Mentés sikeres!";
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidOperationException($"Hiba történt a mentés közben: {ex.InnerException.Message}");
+            }
+        }
+
+        /// <summary>
+        /// Alapanyag entitás törlése
+        /// </summary>
+        public async Task<string> DeleteBasicMaterial(int basicMaterialId)
+        {
+            try
+            {
+                var basicMaterial = _recipeDbContext.BasicMaterials.FirstOrDefault(e => e.Id == basicMaterialId);
+
+                if (basicMaterial == null)
+                {
+                    throw new InvalidOperationException("Az alapanyag nem található az adatbázisban.");
+                }
+
+                var isUsedInOtherEntity = _recipeDbContext.IngredientsAllergens.Any(e => e.IngredientId == basicMaterialId);
+
+                if (isUsedInOtherEntity)
+                {
+                    throw new InvalidOperationException("Az alapanyag más entitásokhoz kapcsolódik, nem törölhető.");
+                }
+
+                basicMaterial.IsDeleted = true;
+                await _recipeDbContext.SaveChangesAsync();
+                return "Sikeres törlés!";
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidOperationException($"Hiba történt a mentés közben: {ex.Message}");
+            }
+        }
+
+        /// <summary>
+        /// Alapanyag entitás szerkesztése
+        /// </summary>
+        public async Task<string> UpdateBasicMaterial(BasicMaterials basicMaterials)
+        {
+            try
+            {
+                var existingBasicMaterial = await _recipeDbContext.BasicMaterials.FirstOrDefaultAsync(r => r.Id == basicMaterials.Id);
+                if (existingBasicMaterial == null)
+                {
+                    throw new InvalidOperationException("Az alapanyag nem található az adatbázisban.");
+                }
+
+                existingBasicMaterial.Name = basicMaterials.Name;
+                existingBasicMaterial.BasicMaterialCategoryId = basicMaterials.BasicMaterialCategoryId;
+
+                await _recipeDbContext.SaveChangesAsync();
+                return "Sikeres módosítás!";
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidOperationException($"Hiba történt a mentés közben: {ex.InnerException.Message}");
+            }
+
+        }
     }
 }

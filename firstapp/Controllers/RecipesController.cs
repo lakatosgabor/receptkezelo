@@ -162,5 +162,32 @@ namespace firstapp.Controllers
         {
             return await _ingredientGroupService.UpdateIngredientGroup(ingredientGroups);
         }
+
+        [HttpPost]
+        [Route("SaveBasicMaterial")]
+        public async Task<string> SaveBasicMaterial(BasicMaterials basicMaterials)
+        {
+            return await _basicMaterialService.SaveBasicMaterial(basicMaterials);
+        }
+
+        [HttpDelete]
+        [Route("DeleteBasicMaterial")]
+        public async Task<string> DeleteBasicMaterial(int basicMaterialId)
+        {
+            if (basicMaterialId <= 0)
+            {
+                return "Az alapanyag azonosító megadása kötelező!";
+            }
+
+            return await _basicMaterialService.DeleteBasicMaterial(basicMaterialId);
+        }
+
+
+        [HttpPut]
+        [Route("UpdateBasicMaterial")]
+        public async Task<string> UpdateBasicMaterial(BasicMaterials basicMaterials)
+        {
+            return await _basicMaterialService.UpdateBasicMaterial(basicMaterials);
+        }
     }
 }
