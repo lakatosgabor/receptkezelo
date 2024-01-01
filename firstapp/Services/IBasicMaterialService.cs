@@ -11,5 +11,8 @@ namespace firstapp.Services
         public Task<string> DeleteBasicMaterial(int basicMaterialId);
         public Task<string> UpdateBasicMaterial(BasicMaterials basicMaterials);
 
+        public IQueryable<object> GetBasicMaterialFromRecipesWithAllergen(int basicMaterialId);
+
+
     }
 }

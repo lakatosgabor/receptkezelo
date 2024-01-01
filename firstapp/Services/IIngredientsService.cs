@@ -8,5 +8,7 @@ namespace firstapp.Services
         public Task<string> SaveIngredient(Ingredients ingredients);
         public Task<string> DeleteIngredient(int ingredientId);
         public Task<string> UpdateIngredient(Ingredients ingredients);
+        public IQueryable<Ingredients> GetIngredients(bool containDeleted);
+
     }
 }

@@ -162,5 +162,31 @@ namespace firstapp.Services
             }
 
         }
+
+
+        public IQueryable<object> GetBasicMaterialFromRecipesWithAllergen(int basicMaterialId)
+        {
+            var data = from recipe in _recipeDbContext.Recipes
+                        join recipeIngredient in _recipeDbContext.RecipeIngredients on recipe.Id equals recipeIngredient.RecipeId into ri
+                        from subRecipeIngredient in ri.DefaultIfEmpty()
+                        join ingredient in _recipeDbContext.Ingredients on subRecipeIngredient.IngredientId equals ingredient.Id into ing
+                        from subIngredient in ing.DefaultIfEmpty()
+                        join basicMaterial in _recipeDbContext.BasicMaterials on subIngredient.BasicMaterialId equals basicMaterial.Id into bm
+                        from subBasicMaterial in bm.DefaultIfEmpty()
+                        join ingredientAllergen in _recipeDbContext.IngredientsAllergens on subBasicMaterial.Id equals ingredientAllergen.IngredientId into ia
+                        from subIngredientAllergen in ia.DefaultIfEmpty()
+                        join allergen in _recipeDbContext.Allergens on subIngredientAllergen.AllergenId equals allergen.Id into a
+                        from subAllergen in a.DefaultIfEmpty()
+                        where subBasicMaterial.Id == basicMaterialId
+                       orderby recipe.CookingTime
+                        select new
+                        {
+                            recipe.Title,
+                            AllergenName = subAllergen.Name
+                        };
+
+            return data;
+
+        }
     }
 }

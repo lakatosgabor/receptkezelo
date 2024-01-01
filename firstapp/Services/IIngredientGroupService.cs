@@ -7,5 +7,8 @@ namespace firstapp.Services
         public Task<string> SaveIngredientGroup(IngredientGroups ingredientGroup);
         public Task<string> DeleteIngredientGroup(int ingredientGroupId);
         public Task<string> UpdateIngredientGroup(IngredientGroups ingredientGroup);
+
+        public IQueryable<IngredientGroups> GetIngredientGroups(bool containDeleted);
+
     }
 }

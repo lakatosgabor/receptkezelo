@@ -99,5 +99,13 @@ namespace firstapp.Services
 
         }
 
+        /// <summary>
+        /// Összes alapanyag lekérdezése
+        /// </summary>
+        public IQueryable<Ingredients> GetIngredients(bool containDeleted)
+        {
+            return GetBasedOnContainDeleted(containDeleted);
+        }
+
     }
 }

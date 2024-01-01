@@ -94,5 +94,12 @@ namespace firstapp.Services
 
         }
 
+        /// <summary>
+        /// Összes hozzávaló csoport lekérdezése
+        /// </summary>
+        public IQueryable<IngredientGroups> GetIngredientGroups(bool containDeleted)
+        {
+            return GetBasedOnContainDeleted(containDeleted);
+        }
     }
 }

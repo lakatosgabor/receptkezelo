@@ -121,6 +121,13 @@ namespace firstapp.Controllers
             return await _ingredientsService.SaveIngredient(ingredients);
         }
 
+        [HttpGet]
+        [Route("GetIngredients")]
+        public IQueryable<Ingredients> GetIngredients(bool containDeleted)
+        {
+            return _ingredientsService.GetIngredients(containDeleted);
+        }
+
         [HttpDelete]
         [Route("DeleteIngredient")]
         public async Task<string> DeleteIngredient(int ingredientId)
@@ -146,6 +153,13 @@ namespace firstapp.Controllers
         public async Task<string> SaveIngredientGroup(IngredientGroups ingredientGroups)
         {
             return await _ingredientGroupService.SaveIngredientGroup(ingredientGroups);
+        }
+
+        [HttpGet]
+        [Route("GetIngredientGroups")]
+        public IQueryable<IngredientGroups> GetIngredientGroups(bool containDeleted)
+        {
+            return _ingredientGroupService.GetIngredientGroups(containDeleted);
         }
 
         [HttpDelete]
@@ -304,6 +318,13 @@ namespace firstapp.Controllers
             }
 
             return await _allergensService.DeleteIngredientsAllergen(ingredientsAllergenId);
+        }
+
+        [HttpGet]
+        [Route("GetBasicMaterialFromRecipesWithAllergen")]
+        public IQueryable<object> GetBasicMaterialFromRecipesWithAllergen(int basicMaterialId)
+        {
+            return _basicMaterialService.GetBasicMaterialFromRecipesWithAllergen(basicMaterialId);
         }
     }
 }
