@@ -189,5 +189,59 @@ namespace firstapp.Controllers
         {
             return await _basicMaterialService.UpdateBasicMaterial(basicMaterials);
         }
+
+        [HttpPost]
+        [Route("SaveBasicMaterialCategory")]
+        public async Task<string> SaveBasicMaterialCategory(BasicMaterialCategories basicMaterialCategories)
+        {
+            return await _basicMaterialCategoryService.SaveBasicMaterialCategory(basicMaterialCategories);
+        }
+
+        [HttpDelete]
+        [Route("DeleteBasicMaterialCategory")]
+        public async Task<string> DeleteBasicMaterialCategory(int basicMaterialCategoryId)
+        {
+            if (basicMaterialCategoryId <= 0)
+            {
+                return "Az alapanyag azonosító megadása kötelező!";
+            }
+
+            return await _basicMaterialCategoryService.DeleteBasicMaterialCategory(basicMaterialCategoryId);
+        }
+
+
+        [HttpPut]
+        [Route("UpdateBasicMaterialCategory")]
+        public async Task<string> UpdateBasicMaterialCategory(BasicMaterialCategories basicMaterialCategories)
+        {
+            return await _basicMaterialCategoryService.UpdateBasicMaterialCategory(basicMaterialCategories);
+        }
+
+        [HttpPost]
+        [Route("SaveAllergen")]
+        public async Task<string> SaveAllergen(Allergens allergens)
+        {
+            return await _allergensService.SaveAllergen(allergens);
+        }
+
+        [HttpDelete]
+        [Route("DeleteAllergen")]
+        public async Task<string> DeleteAllergen(int allergenId)
+        {
+            if (allergenId <= 0)
+            {
+                return "Az allergén azonosító megadása kötelező!";
+            }
+
+            return await _allergensService.DeleteAllergen(allergenId);
+        }
+
+
+        [HttpPut]
+        [Route("UpdateAllergen")]
+        public async Task<string> UpdateAllergen(Allergens allergens)
+        {
+            return await _allergensService.UpdateAllergen(allergens);
+        }
     }
 }
