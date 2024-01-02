@@ -326,5 +326,38 @@ namespace firstapp.Controllers
         {
             return _basicMaterialService.GetBasicMaterialFromRecipesWithAllergen(basicMaterialId);
         }
+
+        [HttpPost]
+        [Route("AddFavoriteRecipe")]
+        public async Task<string> AddFavoriteRecipe(FavoriteRecipes FavoriteRecipes)
+        {
+            return await _recipesService.AddFavoriteRecipe(FavoriteRecipes);
+        }
+
+        [HttpDelete]
+        [Route("RemoveFavoriteRecipe")]
+        public async Task<string> RemoveFavoriteRecipe(int favoriteRecipeId)
+        {
+            if (favoriteRecipeId <= 0)
+            {
+                return "Az azonosító megadása kötelező!";
+            }
+
+            return await _recipesService.RemoveFavoriteRecipe(favoriteRecipeId);
+        }
+
+        [HttpPost]
+        [Route("AddUserAllergen")]
+        public async Task<string> AddUserAllergen(UserAllergens UserAllergens)
+        {
+            return await _allergensService.AddUserAllergen(UserAllergens);
+        }
+
+        [HttpGet]
+        [Route("GetUserAllergens")]
+        public IQueryable<object> GetUserAllergens(bool containDeleted)
+        {
+            return _recipesService.GetUserAllergens(containDeleted);
+        }
     }
 }

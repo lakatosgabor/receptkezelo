@@ -25,7 +25,12 @@ namespace firstapp.Models.Entity
         public DbSet<RecipeIngredients> RecipeIngredients { get; set; }
 
         public DbSet<ApplicationUser> ApplicationUser { get; set; }
+        public DbSet<FavoriteRecipes> FavoriteRecipes { get; set; }
+        public DbSet<UserAllergens> UserAllergens { get; set; }
+
         
+
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());

@@ -149,5 +149,28 @@ namespace firstapp.Services
                 throw new InvalidOperationException($"Hiba történt a mentés közben: {ex.Message}");
             }
         }
+
+        /// <summary>
+        /// Felhasználó allergénjének mentése
+        /// </summary>
+        public async Task<string> AddUserAllergen(UserAllergens UserAllergens)
+        {
+            try
+            {
+                _recipeDbContext.UserAllergens.Add(UserAllergens);
+                int affectedRows = await _recipeDbContext.SaveChangesAsync();
+
+                if (affectedRows <= 0)
+                {
+                    throw new InvalidOperationException("Sikertelen mentés!");
+                }
+                return "Mentés sikeres!";
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidOperationException($"Hiba történt a mentés közben: {ex.Message}");
+            }
+        }
+
     }
 }

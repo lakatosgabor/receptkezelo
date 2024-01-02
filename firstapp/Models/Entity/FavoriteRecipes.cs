@@ -1,0 +1,18 @@
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
+
+namespace firstapp.Models.Entity
+{
+    public class FavoriteRecipes
+    {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Id { get; set; }
+
+        [Required]
+        public int UserId { get; set; }
+
+        [Required]
+        public int RecipeId { get; set; }
+    }
+}

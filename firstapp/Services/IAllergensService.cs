@@ -12,5 +12,7 @@ namespace firstapp.Services
         public Task<string> SaveIngredientsAllergen(IngredientsAllergens IngredientsAllergens);
         public Task<string> DeleteIngredientsAllergen(int ingredientsAllergenId);
 
+        public Task<string> AddUserAllergen(UserAllergens UserAllergens);
+
     }
 }

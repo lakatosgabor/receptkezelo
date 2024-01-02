@@ -10,5 +10,10 @@ namespace firstapp.Services
         public Task<string> SaveRecipe(Recipes recipes);
         public Task<string> DeleteRecipe(int recipeId);
         public Task<string> UpdateRecipe(Recipes recipes);
+        public Task<string> AddFavoriteRecipe(FavoriteRecipes FavoriteRecipes);
+        public Task<string> RemoveFavoriteRecipe(int favoriteRecipeId);
+
+        public IQueryable<object> GetUserAllergens(bool containDeleted);
+
     }
 }

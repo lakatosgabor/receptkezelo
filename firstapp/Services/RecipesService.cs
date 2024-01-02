@@ -182,5 +182,76 @@ namespace firstapp.Services
             }
 
         }
+
+        /// <summary>
+        /// Recept kedvencnek jelölése
+        /// </summary>
+        public async Task<string> AddFavoriteRecipe(FavoriteRecipes FavoriteRecipes)
+        {
+            try
+            {
+                _recipeDbContext.FavoriteRecipes.Add(FavoriteRecipes);
+                int affectedRows = await _recipeDbContext.SaveChangesAsync();
+
+                if (affectedRows <= 0)
+                {
+                    throw new InvalidOperationException("Sikertelen mentés!");
+                }
+                return "Mentés sikeres!";
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidOperationException($"Hiba történt a mentés közben: {ex.Message}");
+            }
+        }
+
+        /// <summary>
+        /// Recept entitás törlése
+        /// </summary>
+        public async Task<string> RemoveFavoriteRecipe(int favoriteRecipeId)
+        {
+            try
+            {
+                var recipe = _recipeDbContext.FavoriteRecipes.FirstOrDefault(e => e.Id == favoriteRecipeId);
+
+                if (recipe == null)
+                {
+                    throw new InvalidOperationException("A recept nem található az adatbázisban.");
+                }
+
+                _recipeDbContext.FavoriteRecipes.Remove(recipe);
+                await _recipeDbContext.SaveChangesAsync();
+                return "Sikeres törlés!";
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidOperationException($"Hiba történt a mentés közben: {ex.Message}");
+            }
+        }
+
+        /// <summary>
+        /// Felhasználó receptjeinek lekérdezése allergének alapján
+        /// </summary>
+        public IQueryable<object> GetUserAllergens(bool containDeleted)
+        {
+            IQueryable<Recipes> recipesQuery = GetBasedOnContainDeleted(containDeleted);
+
+            var userAllergenRecipesQuery = from recipe in recipesQuery
+                                           join recipeIngredient in _recipeDbContext.RecipeIngredients on recipe.Id equals recipeIngredient.RecipeId
+                                           join ingredient in _recipeDbContext.Ingredients on recipeIngredient.IngredientId equals ingredient.Id
+                                           join basicMaterial in _recipeDbContext.BasicMaterials on ingredient.BasicMaterialId equals basicMaterial.Id
+                                           join ingredientAllergen in _recipeDbContext.IngredientsAllergens on basicMaterial.Id equals ingredientAllergen.IngredientId
+                                           join allergen in _recipeDbContext.Allergens on ingredientAllergen.AllergenId equals allergen.Id
+                                           join userAllergen in _recipeDbContext.UserAllergens on ingredientAllergen.AllergenId equals userAllergen.AllergenId
+                                           select new
+                                           {
+                                               recipe.Title,
+                                               allergen.Name
+                                           };
+
+            return userAllergenRecipesQuery;
+
+        }
     }
+
 }
