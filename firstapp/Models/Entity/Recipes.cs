@@ -1,10 +1,14 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
+using firstapp.Models.Validations;
 
 namespace firstapp.Models.Entity
 {
     public class Recipes : AbstractEntity
     {
         [Required]
+        [CodeNameValidation(ErrorMessage = "Hibás kódnév formátum.")]
         public string CodeName { get; set; }
         [Required]
         public string Title { get; set; }

@@ -116,7 +116,7 @@ namespace firstapp.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Allergens");
+                    b.ToTable("Allergens", (string)null);
                 });
 
             modelBuilder.Entity("firstapp.Models.Entity.BasicMaterialCategories", b =>
@@ -136,7 +136,7 @@ namespace firstapp.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("BasicMaterialCategories");
+                    b.ToTable("BasicMaterialCategories", (string)null);
                 });
 
             modelBuilder.Entity("firstapp.Models.Entity.BasicMaterials", b =>
@@ -161,7 +161,7 @@ namespace firstapp.Migrations
 
                     b.HasIndex("BasicMaterialCategoryId");
 
-                    b.ToTable("BasicMaterials");
+                    b.ToTable("BasicMaterials", (string)null);
                 });
 
             modelBuilder.Entity("firstapp.Models.Entity.FavoriteRecipes", b =>
@@ -180,7 +180,7 @@ namespace firstapp.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("FavoriteRecipes");
+                    b.ToTable("FavoriteRecipes", (string)null);
                 });
 
             modelBuilder.Entity("firstapp.Models.Entity.IngredientGroupping", b =>
@@ -203,7 +203,7 @@ namespace firstapp.Migrations
 
                     b.HasIndex("IngredientId");
 
-                    b.ToTable("IngredientGroupping");
+                    b.ToTable("IngredientGroupping", (string)null);
                 });
 
             modelBuilder.Entity("firstapp.Models.Entity.IngredientGroups", b =>
@@ -223,7 +223,7 @@ namespace firstapp.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("IngredientGroups");
+                    b.ToTable("IngredientGroups", (string)null);
                 });
 
             modelBuilder.Entity("firstapp.Models.Entity.Ingredients", b =>
@@ -256,7 +256,7 @@ namespace firstapp.Migrations
 
                     b.HasIndex("BasicMaterialId");
 
-                    b.ToTable("Ingredients");
+                    b.ToTable("Ingredients", (string)null);
                 });
 
             modelBuilder.Entity("firstapp.Models.Entity.IngredientsAllergens", b =>
@@ -279,7 +279,7 @@ namespace firstapp.Migrations
 
                     b.HasIndex("IngredientId");
 
-                    b.ToTable("IngredientsAllergens");
+                    b.ToTable("IngredientsAllergens", (string)null);
                 });
 
             modelBuilder.Entity("firstapp.Models.Entity.RecipeIngredients", b =>
@@ -302,7 +302,7 @@ namespace firstapp.Migrations
 
                     b.HasIndex("RecipeId");
 
-                    b.ToTable("RecipeIngredients");
+                    b.ToTable("RecipeIngredients", (string)null);
                 });
 
             modelBuilder.Entity("firstapp.Models.Entity.Recipes", b =>
@@ -337,7 +337,7 @@ namespace firstapp.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Recipes");
+                    b.ToTable("Recipes", (string)null);
                 });
 
             modelBuilder.Entity("firstapp.Models.Entity.UserAllergens", b =>
@@ -356,7 +356,7 @@ namespace firstapp.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("UserAllergens");
+                    b.ToTable("UserAllergens", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
